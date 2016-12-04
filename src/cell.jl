@@ -12,10 +12,14 @@ end
 
 @generated function Cell{Data, N, T}(boundary::HyperRectangle{N, T}, data::Data=nothing)
     L = 2^N
-    :(Cell{Data, N, T, $L}(boundary, 
-                           data, boundary.origin + boundary.widths / 2,
-                           Nullable{TwosArray{N, T, $L}}(),
-                           Nullable{Cell{Data, N, T, $L}}()))
+    return quote
+        T2 = Base.promote_op(/, T, Int)
+        Cell{Data, N, T2, $L}(boundary,
+             data, 
+             boundary.origin + boundary.widths / 2,
+             Nullable{}(),
+             Nullable{}())
+    end
 end
 
 isleaf(cell::Cell) = isnull(cell.children)
@@ -50,11 +54,11 @@ child_indices{Data, N, T, L}(cell::Cell{Data, N, T, L}) = child_indices(Val{N})
         [I.I for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
 end
 
-@generated function split!(cell::Cell, child_data::AbstractArray)
-    split!_impl(cell, child_data)
+@generated function split!{Data, N}(cell::Cell{Data, N}, child_data::AbstractArray)
+    split!_impl(cell, child_data, Val{N})
 end
 
-function split!_impl{Data, N, T, L}(::Type{Cell{Data, N, T, L}}, child_data)
+function split!_impl{C <: Cell, N}(::Type{C}, child_data, ::Type{Val{N}})
     child_exprs = [:(Cell(child_boundary(cell, $(I.I)),
                           child_data[$i])) for (i, I) in
                     enumerate(CartesianRange(ntuple(_ -> 2, Val{N})))]

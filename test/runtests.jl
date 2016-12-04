@@ -1,3 +1,7 @@
 using Base.Test
+using BinaryRegionTrees
+using StaticArrays
 
-include("trees.jl")
+include("hyperrectangle.jl")
+include("cell.jl")
+include("twosarray.jl")

@@ -15,3 +15,7 @@ end
 end
 
 center(rect::HyperRectangle) = rect.origin + 0.5 * rect.widths
+
+convert{N, T1, T2}(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) = 
+    HyperRectangle{N, T2}(convert(SVector{N, T2}, r.origin),
+                          convert(SVector{N, T2}, r.widths))

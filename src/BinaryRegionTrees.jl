@@ -1,7 +1,7 @@
 module BinaryRegionTrees
 
 using StaticArrays
-import Base: show, size, getindex, parent
+import Base: show, size, getindex, parent, convert
 export Cell, 
        split!, 
        isleaf,
@@ -15,7 +15,7 @@ export Cell,
 
 include("twosarray.jl")
 include("hyperrectangle.jl")
-include("treecell.jl")
+include("cell.jl")
 include("asdfs.jl")
 
 end
