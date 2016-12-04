@@ -27,3 +27,12 @@ end
     @inferred BinaryRegionTrees.Cell(SVector(0.0, 0.0), SVector(1.0, 1.0))
 end
 
+@testset "find leaf" begin
+    cell = Cell(SVector(-1., -2, -3), SVector(2., 4, 6), 0)
+    @test findleaf(cell, SVector(-0.01, -0.01, -0.01)) === cell
+
+    split!(cell, [0 for i in 1:8])
+    @test findleaf(cell, SVector(-0.01, -0.01, -0.01)) === cell[1,1,1]
+    @test findleaf(cell, SVector(0.01, -0.01, -0.01)) === cell[2,1,1]
+end
+

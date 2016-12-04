@@ -5,6 +5,7 @@ import Base: show, size, getindex, parent, convert
 export Cell, 
        split!, 
        isleaf,
+       findleaf,
        children,
        parent,
        child_boundary,
