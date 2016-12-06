@@ -58,6 +58,9 @@ end
     split!_impl(cell, child_data, Val{N})
 end
 
+split!(cell::Cell, child_data_function::Function) = 
+    split!(cell, map_children(child_data_function, cell))
+
 function split!_impl{C <: Cell, N}(::Type{C}, child_data, ::Type{Val{N}})
     child_exprs = [:(Cell(child_boundary(cell, $(I.I)),
                           child_data[$i])) for (i, I) in

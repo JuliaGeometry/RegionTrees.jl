@@ -1,7 +1,8 @@
 module ASDFs
 
 using StaticArrays
-using BinaryRegionTrees
+using RegionTrees
+import RegionTrees: needs_refinement, get_data
 using Interpolations
 
 @generated function evaluate{N}(itp::AbstractInterpolation, point::SVector{N})
@@ -13,36 +14,35 @@ function evaluate{D <: AbstractInterpolation}(cell::Cell{D}, point::SVector)
     evaluate(cell.data, coords)
 end
 
-function needs_refinement(cell, signed_distance, atol=1e-3)
-    c = center(cell.boundary)
-    value_interp = evaluate(cell, c)
-    value_true = signed_distance(c)
-    
-    abs(value_interp - value_true) > atol
+type SignedDistanceRefinery{F <: Function} <: AbstractRefinery
+    signed_distance_func::F
+    atol::Float64
+    rtol::Float64
 end
 
-function ASDF{N, T}(signed_distance, origin::SVector{N, T}, widths::SVector{N, T}, atol=1e-3)
-    boundary = HyperRectangle(origin, widths)
-    
-    verts = vertices(boundary)
-    corner_values = signed_distance.(verts)
-    
-    function refine(cell, offset)
-        interpolate!(signed_distance.(vertices(child_boundary(cell, offset))), BSpline(Linear()), OnGrid())
-    end
-    
-    root = Cell(boundary, interpolate!(corner_values, BSpline(Linear()), OnGrid()))
-    refinement_queue = [root]
-    
-    while !isempty(refinement_queue)
-        cell = pop!(refinement_queue)
-        if needs_refinement(cell, signed_distance, atol)
-            child_data = map_children(refine, cell)
-            split!(cell, child_data)
-            append!(refinement_queue, children(cell))
-        end
-    end
-    root
+function needs_refinement(refinery::SignedDistanceRefinery, cell::Cell)
+    needs_refinement(cell, refinery.signed_distance_func, refinery.atol, refinery.rtol)
+end
+
+function needs_refinement(cell::Cell, signed_distance_func, atol, rtol)
+    c = center(cell.boundary)
+    value_interp = evaluate(cell, c)
+    value_true = signed_distance_func(c)
+    !isapprox(value_interp, value_true, rtol=rtol, atol=atol)
+end
+
+function get_data(refinery::SignedDistanceRefinery, boundary)
+    interpolate!(refinery.signed_distance_func.(vertices(boundary)),
+                 BSpline(Linear()),
+                 OnGrid())
+end
+
+function ASDF(signed_distance::Function, origin::AbstractArray, 
+              widths::AbstractArray,
+              rtol=1e-2,
+              atol=1e-2)
+    refinery = SignedDistanceRefinery(signed_distance, atol, rtol)
+    AdaptiveSampling(refinery, origin, widths)
 end 
 
 

@@ -1,4 +1,4 @@
-module BinaryRegionTrees
+module RegionTrees
 
 using StaticArrays
 import Base: show, size, getindex, parent, convert
@@ -9,14 +9,19 @@ export Cell,
        children,
        parent,
        child_boundary,
-       map_children,
        HyperRectangle,
        center,
-       vertices
+       vertices,
+       AbstractRefinery,
+       needs_refinement,
+       refine_data,
+       initial_data,
+       AdaptiveSampling
 
 include("twosarray.jl")
 include("hyperrectangle.jl")
 include("cell.jl")
+include("adaptivesampling.jl")
 include("asdfs.jl")
 
 end

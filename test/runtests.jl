@@ -1,5 +1,5 @@
 using Base.Test
-using BinaryRegionTrees
+using RegionTrees
 using StaticArrays
 
 include("hyperrectangle.jl")
