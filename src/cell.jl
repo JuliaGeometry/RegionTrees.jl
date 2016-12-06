@@ -25,6 +25,8 @@ end
 isleaf(cell::Cell) = isnull(cell.children)
 children(cell::Cell) = get(cell.children)
 parent(cell::Cell) = get(cell.parent)
+center(cell::Cell) = center(cell.boundary)
+vertices(cell::Cell) = vertices(cell.boundary)
 
 size{C <: Cell}(::Type{C}) = ()
 @inline size(cell::Cell) = size(typeof(cell))
