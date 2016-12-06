@@ -22,21 +22,21 @@ end
     end
 end
 
-isleaf(cell::Cell) = isnull(cell.children)
-children(cell::Cell) = get(cell.children)
-parent(cell::Cell) = get(cell.parent)
-center(cell::Cell) = center(cell.boundary)
-vertices(cell::Cell) = vertices(cell.boundary)
+@inline isleaf(cell::Cell) = isnull(cell.children)
+@inline children(cell::Cell) = get(cell.children)
+@inline parent(cell::Cell) = get(cell.parent)
+@inline center(cell::Cell) = center(cell.boundary)
+@inline vertices(cell::Cell) = vertices(cell.boundary)
 
-size{C <: Cell}(::Type{C}) = ()
+@inline size{C <: Cell}(::Type{C}) = ()
 @inline size(cell::Cell) = size(typeof(cell))
 
 show(io::IO, cell::Cell) = print(io, "Cell: $(cell.boundary)")
 
-getindex(cell::Cell) = cell
-getindex(cell::Cell, ::CartesianIndex{0}) = cell
-getindex(cell::Cell, I) = getindex(get(cell.children), I)
-getindex(cell::Cell, I...) = getindex(get(cell.children), I...)
+@inline getindex(cell::Cell) = cell
+@inline getindex(cell::Cell, ::CartesianIndex{0}) = cell
+@inline getindex(cell::Cell, I) = getindex(get(cell.children), I)
+@inline getindex(cell::Cell, I...) = getindex(get(cell.children), I...)
 
 function child_boundary(cell::Cell, indices)
     HyperRectangle(cell.boundary.origin + 0.5 * (SVector(indices) - 1) .* cell.boundary.widths,
@@ -83,7 +83,8 @@ end
             if isleaf(cell)
                 return cell
             end
-            cell = $(Expr(:ref, :cell, [:(point[$i] >= cell.divisions[$i] ? 2 : 1) for i in 1:N]...))
+            length(point) == $N || throw(DimensionMismatch("expected a point of length $N"))
+            @inbounds cell = $(Expr(:ref, :cell, [:(ifelse(point[$i] >= cell.divisions[$i], 2, 1)) for i in 1:N]...))
         end
     end
 end
