@@ -34,4 +34,17 @@ import RegionTrees: TwosArray
     @test slicedim(a3, 2, 2) == a3[:,2,:]
     @test slicedim(a3, 3, 1) == a3[:,:,1]
     @test slicedim(a3, 3, 2) == a3[:,:,2]
+
+    a4 = TwosArray(1:16...)
+    @test size(a4) == (2,2,2,2)
+    @test a4[1,1,1,1] == 1
+    @test a4[2,1,1,1] == 2
+    @test slicedim(a4, 1, 1) == a4[1,:,:,:]
+    @test slicedim(a4, 1, 2) == a4[2,:,:,:]
+    @test slicedim(a4, 2, 1) == a4[:,1,:,:]
+    @test slicedim(a4, 2, 2) == a4[:,2,:,:]
+    @test slicedim(a4, 3, 1) == a4[:,:,1,:]
+    @test slicedim(a4, 3, 2) == a4[:,:,2,:]
+    @test slicedim(a4, 4, 1) == a4[:,:,:,1]
+    @test slicedim(a4, 4, 2) == a4[:,:,:,2]
 end

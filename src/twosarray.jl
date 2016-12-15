@@ -18,13 +18,27 @@ end
 @generated size{N, T, L}(::Type{TwosArray{N, T, L}}) = Expr(:tuple, [2 for i in 1:N]...)
 getindex(b::TwosArray, i::Integer) = b.data[i]
 
-@generated function Base.slicedim{N, T}(a::TwosArray{N, T}, d::Integer, i::Integer)
+"""
+Highly specialized slicedim implementation for TwosArray (an array of size
+2 along every dimension). Returns a TwosArray with N-1 dimensions. See
+`test/twosarray.jl` for exhaustive testing of this function. This is about
+100 times faster than Julia's base slicedim().
+"""
+@generated function Base.slicedim{N, T}(A::TwosArray{N, T}, d::Integer, i::Integer)
     quote
         x = 2^(d - 1)
-        y = 2 * x  # == 2^d
+        j = 1
+        k = 1
         TwosArray($(Expr(:tuple, [quote
-            fm = fldmod($n - 1, x)
-            a[y * fm[1] + fm[2] + 1 + (i - 1) * x]
+            z = j
+            j += 1
+            if k < x
+                k += 1
+            else
+                j += x
+                k = 1
+            end
+            A[z + (i - 1) * x]
         end for n in 1:(2^(N - 1))]...)))
     end
 end
