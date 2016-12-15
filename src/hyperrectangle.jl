@@ -26,16 +26,8 @@ convert{N, T1, T2}(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) =
         verts = vertices(rect)
         TwosArray($(Expr(:tuple, [:(slicedim(verts, $d, $i)) for i in 1:2 for d in 1:N]...)))
     end
-    # [slicedim(verts, d, i) for i in 1:2 for d in 1:N]
 end
 
 function body_and_face_centers(rect::HyperRectangle)
     vcat(center(rect), mean.(faces(rect)))
-    #
-    # Task(() -> begin
-    #     produce(center(rect))
-    #     for face in faces(rect)
-    #         produce(mean(face))
-    #     end
-    # end)
 end
