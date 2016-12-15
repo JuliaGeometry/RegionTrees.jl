@@ -18,13 +18,13 @@
 end
 
 @testset "type promotions" begin
-    c1 = BinaryRegionTrees.Cell(SVector(0.0, 0.0), SVector(1.0, 1.0))
+    c1 = RegionTrees.Cell(SVector(0.0, 0.0), SVector(1.0, 1.0))
     @test typeof(c1.boundary.origin) == SVector{2, Float64}
-    c2 = BinaryRegionTrees.Cell(SVector(0, 0), SVector(1, 1))
+    c2 = RegionTrees.Cell(SVector(0, 0), SVector(1, 1))
     @test typeof(c2.boundary.origin) == SVector{2, Float64}
 
-    @inferred BinaryRegionTrees.Cell(SVector(0, 0), SVector(1, 1))
-    @inferred BinaryRegionTrees.Cell(SVector(0.0, 0.0), SVector(1.0, 1.0))
+    @inferred RegionTrees.Cell(SVector(0, 0), SVector(1, 1))
+    @inferred RegionTrees.Cell(SVector(0.0, 0.0), SVector(1.0, 1.0))
 end
 
 @testset "find leaf" begin
@@ -35,4 +35,3 @@ end
     @test findleaf(cell, SVector(-0.01, -0.01, -0.01)) === cell[1,1,1]
     @test findleaf(cell, SVector(0.01, -0.01, -0.01)) === cell[2,1,1]
 end
-

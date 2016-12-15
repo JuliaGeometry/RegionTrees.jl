@@ -15,7 +15,7 @@ end
     return quote
         T2 = Base.promote_op(/, T, Int)
         Cell{Data, N, T2, $L}(boundary,
-             data, 
+             data,
              boundary.origin + boundary.widths / 2,
              Nullable{}(),
              Nullable{}())
@@ -52,7 +52,7 @@ end
 child_indices{Data, N, T, L}(cell::Cell{Data, N, T, L}) = child_indices(Val{N})
 
 @generated function child_indices{N}(::Type{Val{N}})
-    Expr(:call, :TwosArray, Expr(:tuple, 
+    Expr(:call, :TwosArray, Expr(:tuple,
         [I.I for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
 end
 
@@ -60,7 +60,7 @@ end
     split!_impl(cell, child_data, Val{N})
 end
 
-split!(cell::Cell, child_data_function::Function) = 
+split!(cell::Cell, child_data_function::Function) =
     split!(cell, map_children(child_data_function, cell))
 
 function split!_impl{C <: Cell, N}(::Type{C}, child_data, ::Type{Val{N}})
@@ -87,4 +87,27 @@ end
             @inbounds cell = $(Expr(:ref, :cell, [:(ifelse(point[$i] >= cell.divisions[$i], 2, 1)) for i in 1:N]...))
         end
     end
+end
+
+function allcells(cell::Cell)
+    Task(() -> begin
+        queue = [cell]
+        while !isempty(queue)
+            current = pop!(queue)
+            produce(current)
+            if !isleaf(current)
+                append!(queue, children(current))
+            end
+        end
+    end)
+end
+
+function allleaves(cell::Cell)
+    Task(() -> begin
+        for cell in allcells(cell)
+            if isleaf(cell)
+                produce(cell)
+            end
+        end
+    end)
 end

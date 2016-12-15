@@ -1,4 +1,4 @@
-import BinaryRegionTrees: TwosArray
+import RegionTrees: TwosArray
 
 @testset "twosarray" begin
     a1 = TwosArray(1,2)
