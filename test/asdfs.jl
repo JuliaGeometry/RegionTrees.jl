@@ -16,5 +16,5 @@
         @test isleaf(leaf)
     end
     @test length(collect(allleaves(root))) == 112
-    @test length(collect(allcells(root))) = 149
+    @test length(collect(allcells(root))) == 149
 end
