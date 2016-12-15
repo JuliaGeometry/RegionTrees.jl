@@ -65,8 +65,7 @@ split!(cell::Cell, child_data_function::Function) =
 
 function split!_impl{C <: Cell, N}(::Type{C}, child_data, ::Type{Val{N}})
     child_exprs = [:(Cell(child_boundary(cell, $(I.I)),
-                          child_data[$i])) for (i, I) in
-                    enumerate(CartesianRange(ntuple(_ -> 2, Val{N})))]
+                          child_data[$i])) for (i, I) in enumerate(CartesianRange(ntuple(_ -> 2, Val{N})))]
     quote
         @assert isleaf(cell)
         cell.children = $(Expr(:call, :TwosArray, Expr(:tuple, child_exprs...)))
