@@ -34,10 +34,14 @@ function needs_refinement(refinery::SignedDistanceRefinery, cell::Cell)
 end
 
 function needs_refinement(cell::Cell, signed_distance_func, atol, rtol)
-    c = center(cell.boundary)
-    value_interp = evaluate(cell, c)
-    value_true = signed_distance_func(c)
-    !isapprox(value_interp, value_true, rtol=rtol, atol=atol)
+    for c in body_and_face_centers(cell.boundary)
+        value_interp = evaluate(cell, c)
+        value_true = signed_distance_func(c)
+        if !isapprox(value_interp, value_true, rtol=rtol, atol=atol)
+            return true
+        end
+    end
+    false
 end
 
 function refine_data(refinery::SignedDistanceRefinery, boundary)

@@ -1,3 +1,4 @@
+import Iterators: chain
 
 immutable HyperRectangle{N, T}
     origin::SVector{N, T}
@@ -29,5 +30,5 @@ convert{N, T1, T2}(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) =
 end
 
 function body_and_face_centers(rect::HyperRectangle)
-    vcat(center(rect), mean.(faces(rect)))
+    chain((center(rect),), mean.(faces(rect)))
 end
