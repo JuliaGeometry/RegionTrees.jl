@@ -44,7 +44,11 @@ function needs_refinement(cell::Cell, signed_distance_func, atol, rtol)
     false
 end
 
-function refine_data(refinery::SignedDistanceRefinery, boundary)
+function refine_data(refinery::SignedDistanceRefinery, cell::Cell, indices)
+    refine_data(refinery, child_boundary(cell, indices))
+end
+
+function refine_data(refinery::SignedDistanceRefinery, boundary::HyperRectangle)
     interpolate!(refinery.signed_distance_func.(vertices(boundary)),
                  BSpline(Linear()),
                  OnGrid())
@@ -55,7 +59,9 @@ function ASDF(signed_distance::Function, origin::AbstractArray,
               rtol=1e-2,
               atol=1e-2)
     refinery = SignedDistanceRefinery(signed_distance, atol, rtol)
-    AdaptiveSampling(refinery, origin, widths)
+    boundary = HyperRectangle(origin, widths)
+    root = Cell(boundary, refine_data(refinery, boundary))
+    adaptivesampling!(root, refinery)
 end
 
 

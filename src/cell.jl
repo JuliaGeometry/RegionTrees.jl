@@ -56,6 +56,10 @@ child_indices{Data, N, T, L}(cell::Cell{Data, N, T, L}) = child_indices(Val{N})
         [I.I for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
 end
 
+function split!{Data, N}(cell::Cell{Data, N})
+    split!(cell, (c, I) -> cell.data)
+end
+
 @generated function split!{Data, N}(cell::Cell{Data, N}, child_data::AbstractArray)
     split!_impl(cell, child_data, Val{N})
 end

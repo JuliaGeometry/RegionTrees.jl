@@ -22,7 +22,7 @@ export Cell,
        initial_data,
        allcells,
        allleaves,
-       AdaptiveSampling
+       adaptivesampling!
 
 include("twosarray.jl")
 include("hyperrectangle.jl")

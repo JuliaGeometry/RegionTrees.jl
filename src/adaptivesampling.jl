@@ -1,16 +1,12 @@
 abstract AbstractRefinery
 
 needs_refinement(refinery::AbstractRefinery, cell) = error("Your refinery should implement this function")
-refine_data(refinery::AbstractRefinery, boundary) = error("Your refinery should implement this function")
+refine_data(refinery::AbstractRefinery, cell, indices) = error("Your refinery should implement this function")
 
-AdaptiveSampling(refinery::AbstractRefinery, origin::AbstractArray, widths::AbstractArray) =
-    AdaptiveSampling(refinery, HyperRectangle(origin, widths))
-
-function AdaptiveSampling(refinery::AbstractRefinery, boundary::HyperRectangle)
-    root = Cell(boundary, refine_data(refinery, boundary))
+function adaptivesampling!(root::Cell, refinery::AbstractRefinery)
     refinement_queue = [root]
     refine_function =
-        (cell, indices) -> refine_data(refinery, child_boundary(cell, indices))
+        (cell, indices) -> refine_data(refinery, cell, indices)
     while !isempty(refinement_queue)
         cell = pop!(refinement_queue)
         if needs_refinement(refinery, cell)
