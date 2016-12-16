@@ -7,7 +7,7 @@ This package is a lightweight framework for defining N-Dimensional region trees.
 
 ## Features
 
-* Lightweight code with few dependencies (only `StaticArrays.jl` is required)
+* Lightweight code with few dependencies (only `StaticArrays.jl` and `Iterators.jl` are required)
 * Optimized for speed and for few memory allocations
     * Liberal use of `@generated` functions lets us unroll most loops and prevent allocating temporary arrays
 * Built-in support for general adaptive sampling techniques
