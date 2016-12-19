@@ -20,3 +20,17 @@ See `examples/demo.ipynb` for a tour through the API. You can also check out:
 * `examples/adaptive_mpc.ipynb` for an adaptive approximation of a model-predictive controller
 
 [1] Frisken et al. "Adaptively Sampled Distance Fields: A General Representation of Shape for Computer Graphics". SIGGRAPH 2000.
+
+## Gallery
+
+An adaptively sampled distance field, from `examples/adaptive_distances.ipynb`:
+
+![](http://rdeits.github.io/RegionTrees.jl/img/distance.svg)
+
+An adaptively sampled model-predictive control problem, from `examples/adaptive_mpc.ipynb`:
+
+![](http://rdeits.github.io/RegionTrees.jl/img/mpc.svg)
+
+An adaptive distance field in 3D, from [AdaptiveDistanceFields.jl](https://github.com/rdeits/AdaptiveDistanceFields.jl):
+
+![](http://rdeits.github.io/RegionTrees.jl/img/distance_3d.svg)
