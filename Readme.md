@@ -33,4 +33,4 @@ An adaptively sampled model-predictive control problem, from `examples/adaptive_
 
 An adaptive distance field in 3D, from [AdaptiveDistanceFields.jl](https://github.com/rdeits/AdaptiveDistanceFields.jl):
 
-![](http://rdeits.github.io/RegionTrees.jl/img/distance_3d.svg)
+![](http://rdeits.github.io/RegionTrees.jl/img/distance_3d.png)
