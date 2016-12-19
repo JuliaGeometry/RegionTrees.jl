@@ -25,7 +25,7 @@ convert{N, T1, T2}(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) =
 @generated function faces{N}(rect::HyperRectangle{N})
     quote
         verts = vertices(rect)
-        TwosArray($(Expr(:tuple, [:(slicedim(verts, $d, $i)) for i in 1:2 for d in 1:N]...)))
+        SVector($(Expr(:tuple, [:(slicedim(verts, $d, $i)) for i in 1:2 for d in 1:N]...)))
     end
 end
 
