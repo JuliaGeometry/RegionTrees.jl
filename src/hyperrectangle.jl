@@ -1,5 +1,3 @@
-import Iterators: chain
-
 immutable HyperRectangle{N, T}
     origin::SVector{N, T}
     widths::SVector{N, T}

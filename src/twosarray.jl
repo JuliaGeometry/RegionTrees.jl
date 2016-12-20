@@ -1,4 +1,3 @@
-
 """
 Represents a static array with N dimensions whose size is
 exactly 2 along each dimension. This makes templating on
