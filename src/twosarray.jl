@@ -41,3 +41,5 @@ Highly specialized slicedim implementation for TwosArray (an array of size
         end for n in 1:(2^(N - 1))]...)))
     end
 end
+
+similar_type{N, T, L, T2}(::Type{TwosArray{N, T, L}}, ::Type{T2}) = TwosArray{N, T2, L}

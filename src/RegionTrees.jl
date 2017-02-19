@@ -3,6 +3,7 @@ __precompile__()
 module RegionTrees
 
 using StaticArrays
+import StaticArrays: similar_type
 using Iterators: chain
 import Base: show, size, getindex, convert, parent
 export Cell,
