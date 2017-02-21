@@ -30,7 +30,7 @@ type SignedDistanceRefinery{F <: Function} <: AbstractRefinery
 end
 
 function needs_refinement(refinery::SignedDistanceRefinery, cell::Cell)
-    needs_refinement(cell, refinery.signed_distance_func, refinery.atol, refinery.rtol)
+    minimum(cell.boundary.widths) > refinery.atol && needs_refinement(cell, refinery.signed_distance_func, refinery.atol, refinery.rtol)
 end
 
 function needs_refinement(cell::Cell, signed_distance_func, atol, rtol)
