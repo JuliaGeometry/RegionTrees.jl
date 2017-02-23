@@ -14,7 +14,7 @@ end
     :(TwosArray{$N, T, L}(x))
 end
 
-@generated size{N, T, L}(::Type{TwosArray{N, T, L}}) = Expr(:tuple, [2 for i in 1:N]...)
+@pure Size{N, T, L}(::Type{TwosArray{N, T, L}}) = Size(ntuple(i -> 2, Val{N}))
 getindex(b::TwosArray, i::Integer) = b.data[i]
 
 """
