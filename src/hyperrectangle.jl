@@ -1,4 +1,4 @@
-immutable HyperRectangle{N, T}
+struct HyperRectangle{N, T}
     origin::SVector{N, T}
     widths::SVector{N, T}
 end
@@ -28,5 +28,5 @@ convert{N, T1, T2}(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) =
 end
 
 function body_and_face_centers(rect::HyperRectangle)
-    chain((center(rect),), mean.(faces(rect)))
+    chain((center(rect),), (f -> reduce(+, f) ./ length(f)).(faces(rect)))
 end

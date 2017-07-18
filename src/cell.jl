@@ -1,4 +1,4 @@
-type Cell{Data, N, T, L}
+mutable struct Cell{Data, N, T, L}
     boundary::HyperRectangle{N, T}
     data::Data
     divisions::SVector{N, T}
@@ -93,24 +93,24 @@ end
 end
 
 function allcells(cell::Cell)
-    Task(() -> begin
+    Channel() do c
         queue = [cell]
         while !isempty(queue)
             current = pop!(queue)
-            produce(current)
+            put!(c, current)
             if !isleaf(current)
                 append!(queue, children(current))
             end
         end
-    end)
+    end
 end
 
 function allleaves(cell::Cell)
-    Task(() -> begin
+    Channel() do c
         for cell in allcells(cell)
             if isleaf(cell)
-                produce(cell)
+                put!(c, cell)
             end
         end
-    end)
+    end
 end

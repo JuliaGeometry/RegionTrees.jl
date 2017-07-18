@@ -4,7 +4,7 @@ exactly 2 along each dimension. This makes templating on
 the number of dimensions easier than with a regular
 SArray.
 """
-immutable TwosArray{N, T, L} <: StaticArray{T, N}
+struct TwosArray{N, T, L} <: StaticArray{NTuple{N, 2}, T, N}
     data::NTuple{L, T}
 end
 
@@ -14,8 +14,7 @@ end
     :(TwosArray{$N, T, L}(x))
 end
 
-@pure Size{N, T, L}(::Type{TwosArray{N, T, L}}) = Size(ntuple(i -> 2, Val{N}))
-getindex(b::TwosArray, i::Integer) = b.data[i]
+getindex(b::TwosArray, i::Int) = b.data[i]
 
 """
 Highly specialized slicedim implementation for TwosArray (an array of size
