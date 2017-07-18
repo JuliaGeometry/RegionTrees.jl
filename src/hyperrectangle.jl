@@ -1,4 +1,4 @@
-immutable HyperRectangle{N, T}
+struct HyperRectangle{N, T}
     origin::SVector{N, T}
     widths::SVector{N, T}
 end

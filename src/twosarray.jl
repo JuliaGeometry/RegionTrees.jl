@@ -4,7 +4,7 @@ exactly 2 along each dimension. This makes templating on
 the number of dimensions easier than with a regular
 SArray.
 """
-immutable TwosArray{N, T, L} <: StaticArray{NTuple{N, 2}, T, N}
+struct TwosArray{N, T, L} <: StaticArray{NTuple{N, 2}, T, N}
     data::NTuple{L, T}
 end
 

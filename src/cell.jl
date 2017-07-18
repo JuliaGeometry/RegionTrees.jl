@@ -1,4 +1,4 @@
-type Cell{Data, N, T, L}
+mutable struct Cell{Data, N, T, L}
     boundary::HyperRectangle{N, T}
     data::Data
     divisions::SVector{N, T}
