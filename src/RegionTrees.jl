@@ -4,7 +4,7 @@ module RegionTrees
 
 using StaticArrays
 import StaticArrays: similar_type, Size
-using Iterators: chain
+using IterTools: chain
 import Base: show, size, getindex, convert, parent, @pure
 export Cell,
        split!,
