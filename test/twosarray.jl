@@ -5,8 +5,6 @@ import RegionTrees: TwosArray
     @test size(a1) == (2,)
     @test a1[1] == 1
     @test a1[2] == 2
-    @test slicedim(a1, 1, 1)[] == a1[1]
-    @test slicedim(a1, 1, 2)[] == a1[2]
 
     a2 = TwosArray("a", "b", "c", "d")
     @test size(a2) == (2,2)
