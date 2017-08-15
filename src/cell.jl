@@ -6,11 +6,11 @@ mutable struct Cell{Data, N, T, L}
     parent::Nullable{Cell{Data, N, T, L}}
 end
 
-function Cell{Data, N, T}(origin::SVector{N, T}, widths::SVector{N, T}, data::Data=nothing)
+function Cell(origin::SVector{N, T}, widths::SVector{N, T}, data::Data=nothing) where {Data, N, T}
     Cell(HyperRectangle(origin, widths), data)
 end
 
-@generated function Cell{Data, N, T}(boundary::HyperRectangle{N, T}, data::Data=nothing)
+@generated function Cell(boundary::HyperRectangle{N, T}, data::Data=nothing) where {Data, N, T}
     L = 2^N
     return quote
         T2 = Base.promote_op(/, T, Int)
@@ -28,7 +28,7 @@ end
 @inline center(cell::Cell) = center(cell.boundary)
 @inline vertices(cell::Cell) = vertices(cell.boundary)
 
-@inline size{C <: Cell}(::Type{C}) = ()
+@inline size(::Type{C}) where {C <: Cell} = ()
 @inline size(cell::Cell) = size(typeof(cell))
 
 show(io::IO, cell::Cell) = print(io, "Cell: $(cell.boundary)")
@@ -43,31 +43,31 @@ function child_boundary(cell::Cell, indices)
                    cell.boundary.widths / 2)
 end
 
-@generated function map_children{Data, N, T, L}(f::Function, cell::Cell{Data, N, T, L})
+@generated function map_children(f::Function, cell::Cell{Data, N, T, L}) where {Data, N, T, L}
     Expr(:call, :TwosArray, Expr(:tuple,
         [:(f(cell, $(I.I))) for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
 end
 
 
-child_indices{Data, N, T, L}(cell::Cell{Data, N, T, L}) = child_indices(Val{N})
+child_indices(cell::Cell{Data, N, T, L}) where {Data, N, T, L} = child_indices(Val{N})
 
-@generated function child_indices{N}(::Type{Val{N}})
+@generated function child_indices(::Type{Val{N}}) where N
     Expr(:call, :TwosArray, Expr(:tuple,
         [I.I for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
 end
 
-function split!{Data, N}(cell::Cell{Data, N})
+function split!(cell::Cell{Data, N}) where {Data, N}
     split!(cell, (c, I) -> cell.data)
 end
 
-@generated function split!{Data, N}(cell::Cell{Data, N}, child_data::AbstractArray)
+@generated function split!(cell::Cell{Data, N}, child_data::AbstractArray) where {Data, N}
     split!_impl(cell, child_data, Val{N})
 end
 
 split!(cell::Cell, child_data_function::Function) =
     split!(cell, map_children(child_data_function, cell))
 
-function split!_impl{C <: Cell, N}(::Type{C}, child_data, ::Type{Val{N}})
+function split!_impl(::Type{C}, child_data, ::Type{Val{N}}) where {C <: Cell, N}
     child_exprs = [:(Cell(child_boundary(cell, $(I.I)),
                           child_data[$i])) for (i, I) in enumerate(CartesianRange(ntuple(_ -> 2, Val{N})))]
     quote
@@ -80,7 +80,7 @@ function split!_impl{C <: Cell, N}(::Type{C}, child_data, ::Type{Val{N}})
     end
 end
 
-@generated function findleaf{Data, N}(cell::Cell{Data, N}, point::AbstractVector)
+@generated function findleaf(cell::Cell{Data, N}, point::AbstractVector) where {Data, N}
     quote
         while true
             if isleaf(cell)

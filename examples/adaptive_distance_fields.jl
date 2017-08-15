@@ -5,7 +5,7 @@ using RegionTrees
 import RegionTrees: needs_refinement, refine_data
 using Interpolations
 
-@generated function evaluate{N}(itp::AbstractInterpolation, point::SVector{N})
+@generated function evaluate(itp::AbstractInterpolation, point::SVector{N}) where N
     Expr(:ref, :itp, [:(point[$i]) for i in 1:N]...)
 end
 
@@ -13,7 +13,7 @@ function evaluate(itp::AbstractInterpolation, point::AbstractArray)
     itp[point...]
 end
 
-function evaluate{D <: AbstractInterpolation}(cell::Cell{D}, point::AbstractArray)
+function evaluate(cell::Cell{D}, point::AbstractArray) where D <: AbstractInterpolation
     leaf = findleaf(cell, point)
     evaluate(leaf.data, leaf.boundary, point)
 end
@@ -23,7 +23,7 @@ function evaluate(interp::AbstractInterpolation, boundary::HyperRectangle, point
     evaluate(interp, coords)
 end
 
-type SignedDistanceRefinery{F <: Function} <: AbstractRefinery
+mutable struct SignedDistanceRefinery{F <: Function} <: AbstractRefinery
     signed_distance_func::F
     atol::Float64
     rtol::Float64

@@ -8,7 +8,7 @@ struct TwosArray{N, T, L} <: StaticArray{NTuple{N, 2}, T, N}
     data::NTuple{L, T}
 end
 
-@generated function TwosArray{L, T}(x::NTuple{L, T})
+@generated function TwosArray(x::NTuple{L, T}) where {L, T}
     @assert log2(L) == round(log2(L)) "L must equal 2^N for integer N"
     N = Int(log2(L))
     :(TwosArray{$N, T, L}(x))
@@ -22,7 +22,7 @@ Highly specialized slicedim implementation for TwosArray (an array of size
 `test/twosarray.jl` for exhaustive testing of this function. This is about
 100 times faster than Julia's base slicedim().
 """
-@generated function Base.slicedim{N, T}(A::TwosArray{N, T}, d::Integer, i::Integer)
+@generated function Base.slicedim(A::TwosArray{N, T}, d::Integer, i::Integer) where {N, T}
     quote
         x = 2^(d - 1)
         j = 1
@@ -41,4 +41,4 @@ Highly specialized slicedim implementation for TwosArray (an array of size
     end
 end
 
-similar_type{N, T, L, T2}(::Type{TwosArray{N, T, L}}, ::Type{T2}) = TwosArray{N, T2, L}
+similar_type(::Type{TwosArray{N, T, L}}, ::Type{T2}) where {N, T, L, T2} = TwosArray{N, T2, L}
