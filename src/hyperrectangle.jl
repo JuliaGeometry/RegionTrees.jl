@@ -3,7 +3,7 @@ struct HyperRectangle{N, T}
     widths::SVector{N, T}
 end
 
-@generated function vertices{N}(rect::HyperRectangle{N})
+@generated function vertices(rect::HyperRectangle{N}) where N
     verts = Expr[]
     for I in CartesianRange(tuple([2 for i in 1:N]...))
         push!(verts,
@@ -16,11 +16,11 @@ end
 
 center(rect::HyperRectangle) = rect.origin + 0.5 * rect.widths
 
-convert{N, T1, T2}(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) =
+convert(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) where {N, T1, T2} =
     HyperRectangle{N, T2}(convert(SVector{N, T2}, r.origin),
                           convert(SVector{N, T2}, r.widths))
 
-@generated function faces{N}(rect::HyperRectangle{N})
+@generated function faces(rect::HyperRectangle{N}) where N
     quote
         verts = vertices(rect)
         SVector($(Expr(:tuple, [:(slicedim(verts, $d, $i)) for i in 1:2 for d in 1:N]...)))
