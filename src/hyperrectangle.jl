@@ -5,7 +5,7 @@ end
 
 @generated function vertices(rect::HyperRectangle{N}) where N
     verts = Expr[]
-    for I in CartesianRange(tuple([2 for i in 1:N]...))
+    for I in CartesianIndices(tuple([2 for i in 1:N]...))
         push!(verts,
         Expr(:call,
         :SVector,
@@ -27,6 +27,20 @@ convert(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) where {N, T1, T
     end
 end
 
-function body_and_face_centers(rect::HyperRectangle)
-    chain((center(rect),), (f -> reduce(+, f) ./ length(f)).(faces(rect)))
+
+struct BodyAndFaceCenters{N, T}
+    rect::HyperRectangle{N, T}
 end
+
+function Base.iterate(b::BodyAndFaceCenters, i=0)
+    if i > lastindex(faces(rect))
+        return nothing
+    elseif i == 0
+        return center(b.rect), i + 1
+    else
+        @inbounds f = faces(b.rect)[i]
+        return sum(f) ./ length(f), i + 1
+    end
+end
+
+body_and_face_centers(rect::HyperRectangle) = BodyAndFaceCenters(rect)

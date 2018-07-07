@@ -3,7 +3,7 @@
     cell = Cell(SVector(-1., -2, -3), SVector(2., 4, 6), 0)
     @test cell.boundary.origin == SVector(-1., -2, -3)
     @test cell.boundary.widths == SVector(2., 4, 6)
-    @test isnull(cell.children)
+    @test cell.children === nothing
     @test isleaf(cell)
 
     split!(cell, [i for i in 1:8])
