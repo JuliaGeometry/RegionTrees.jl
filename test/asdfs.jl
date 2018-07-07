@@ -1,6 +1,6 @@
 @testset "adaptively sampled distance fields" begin
     include("../examples/adaptive_distance_fields.jl")
-    import AdaptivelySampledDistanceFields: ASDF, evaluate
+    import .AdaptivelySampledDistanceFields: ASDF, evaluate
     import StaticArrays: SVector
 
     signed_distance = x -> norm(x - SVector(0, 0))

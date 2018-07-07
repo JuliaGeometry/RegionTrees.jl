@@ -2,8 +2,8 @@ mutable struct Cell{Data, N, T, L}
     boundary::HyperRectangle{N, T}
     data::Data
     divisions::SVector{N, T}
-    children::Nullable{TwosArray{N, Cell{Data, N, T, L}, L}}
-    parent::Nullable{Cell{Data, N, T, L}}
+    children::Union{TwosArray{N, Cell{Data, N, T, L}, L}, Nothing}
+    parent::Union{Cell{Data, N, T, L}, Nothing}
 end
 
 function Cell(origin::SVector{N, T}, widths::SVector{N, T}, data::Data=nothing) where {Data, N, T}
@@ -17,14 +17,14 @@ end
         Cell{Data, N, T2, $L}(boundary,
              data,
              boundary.origin + boundary.widths / 2,
-             Nullable{}(),
-             Nullable{}())
+             nothing,
+             nothing)
     end
 end
 
-@inline isleaf(cell::Cell) = isnull(cell.children)
-@inline children(cell::Cell) = get(cell.children)
-@inline parent(cell::Cell) = get(cell.parent)
+@inline isleaf(cell::Cell) = cell.children === nothing
+@inline children(cell::Cell) = cell.children
+@inline parent(cell::Cell) = cell.parent
 @inline center(cell::Cell) = center(cell.boundary)
 @inline vertices(cell::Cell) = vertices(cell.boundary)
 
@@ -35,8 +35,8 @@ show(io::IO, cell::Cell) = print(io, "Cell: $(cell.boundary)")
 
 @inline getindex(cell::Cell) = cell
 @inline getindex(cell::Cell, ::CartesianIndex{0}) = cell
-@inline getindex(cell::Cell, I) = getindex(get(cell.children), I)
-@inline getindex(cell::Cell, I...) = getindex(get(cell.children), I...)
+@inline getindex(cell::Cell, I) = getindex(cell.children, I)
+@inline getindex(cell::Cell, I...) = getindex(cell.children, I...)
 
 function child_boundary(cell::Cell, indices)
     HyperRectangle(cell.boundary.origin + 0.5 * (SVector(indices) - 1) .* cell.boundary.widths,
@@ -45,7 +45,7 @@ end
 
 @generated function map_children(f::Function, cell::Cell{Data, N, T, L}) where {Data, N, T, L}
     Expr(:call, :TwosArray, Expr(:tuple,
-        [:(f(cell, $(I.I))) for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
+        [:(f(cell, $(I.I))) for I in CartesianIndices(ntuple(_ -> 2, Val{N}))]...))
 end
 
 
@@ -53,7 +53,7 @@ child_indices(cell::Cell{Data, N, T, L}) where {Data, N, T, L} = child_indices(V
 
 @generated function child_indices(::Type{Val{N}}) where N
     Expr(:call, :TwosArray, Expr(:tuple,
-        [I.I for I in CartesianRange(ntuple(_ -> 2, Val{N}))]...))
+        [I.I for I in CartesianIndices(ntuple(_ -> 2, Val{N}))]...))
 end
 
 function split!(cell::Cell{Data, N}) where {Data, N}
@@ -69,11 +69,11 @@ split!(cell::Cell, child_data_function::Function) =
 
 function split!_impl(::Type{C}, child_data, ::Type{Val{N}}) where {C <: Cell, N}
     child_exprs = [:(Cell(child_boundary(cell, $(I.I)),
-                          child_data[$i])) for (i, I) in enumerate(CartesianRange(ntuple(_ -> 2, Val{N})))]
+                          child_data[$i])) for (i, I) in enumerate(CartesianIndices(ntuple(_ -> 2, Val(N))))]
     quote
         @assert isleaf(cell)
         cell.children = $(Expr(:call, :TwosArray, Expr(:tuple, child_exprs...)))
-        for child in get(cell.children)
+        for child in cell.children
             child.parent = cell
         end
         cell
@@ -107,9 +107,9 @@ end
 
 function allleaves(cell::Cell)
     Channel() do c
-        for cell in allcells(cell)
-            if isleaf(cell)
-                put!(c, cell)
+        for child in allcells(cell)
+            if isleaf(child)
+                put!(c, child)
             end
         end
     end
