@@ -45,15 +45,15 @@ end
 
 @generated function map_children(f::Function, cell::Cell{Data, N, T, L}) where {Data, N, T, L}
     Expr(:call, :TwosArray, Expr(:tuple,
-        [:(f(cell, $(I.I))) for I in CartesianIndices(ntuple(_ -> 2, Val{N}))]...))
+        [:(f(cell, $(I.I))) for I in CartesianIndices(ntuple(_ -> 2, Val(N)))]...))
 end
 
 
-child_indices(cell::Cell{Data, N, T, L}) where {Data, N, T, L} = child_indices(Val{N})
+child_indices(cell::Cell{Data, N, T, L}) where {Data, N, T, L} = child_indices(Val(N))
 
-@generated function child_indices(::Type{Val{N}}) where N
+@generated function child_indices(::Val{N}) where N
     Expr(:call, :TwosArray, Expr(:tuple,
-        [I.I for I in CartesianIndices(ntuple(_ -> 2, Val{N}))]...))
+        [I.I for I in CartesianIndices(ntuple(_ -> 2, Val(N)))]...))
 end
 
 function split!(cell::Cell{Data, N}) where {Data, N}

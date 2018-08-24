@@ -17,12 +17,12 @@ end
 getindex(b::TwosArray, i::Int) = b.data[i]
 
 """
-Highly specialized slicedim implementation for TwosArray (an array of size
+Highly specialized selectdim implementation for TwosArray (an array of size
 2 along every dimension). Returns a TwosArray with N-1 dimensions. See
 `test/twosarray.jl` for exhaustive testing of this function. This is about
-100 times faster than Julia's base slicedim().
+100 times faster than Julia's base selectdim().
 """
-@generated function Base.slicedim(A::TwosArray{N, T}, d::Integer, i::Integer) where {N, T}
+@generated function Base.selectdim(A::TwosArray{N, T}, d::Integer, i::Integer) where {N, T}
     quote
         x = 2^(d - 1)
         j = 1
