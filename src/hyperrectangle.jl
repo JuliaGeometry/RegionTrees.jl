@@ -23,7 +23,7 @@ convert(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) where {N, T1, T
 @generated function faces(rect::HyperRectangle{N}) where N
     quote
         verts = vertices(rect)
-        SVector($(Expr(:tuple, [:(slicedim(verts, $d, $i)) for i in 1:2 for d in 1:N]...)))
+        SVector($(Expr(:tuple, [:(selectdim(verts, $d, $i)) for i in 1:2 for d in 1:N]...)))
     end
 end
 
@@ -32,8 +32,8 @@ struct BodyAndFaceCenters{N, T}
     rect::HyperRectangle{N, T}
 end
 
-function Base.iterate(b::BodyAndFaceCenters, i=0)
-    if i > lastindex(faces(rect))
+function Base.iterate(b::BodyAndFaceCenters{N, T}, i=0) where {N, T}
+    if i > 2 * N
         return nothing
     elseif i == 0
         return center(b.rect), i + 1
@@ -42,5 +42,8 @@ function Base.iterate(b::BodyAndFaceCenters, i=0)
         return sum(f) ./ length(f), i + 1
     end
 end
+
+Base.length(iter::BodyAndFaceCenters{N}) where {N} = 2 * N + 1
+Base.eltype(iter::BodyAndFaceCenters{N, T}) where {N, T} = SVector{N, T}
 
 body_and_face_centers(rect::HyperRectangle) = BodyAndFaceCenters(rect)

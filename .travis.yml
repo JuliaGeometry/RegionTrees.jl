@@ -4,14 +4,15 @@ os:
   - linux
 julia:
   - 0.7
+  - 1.0
   - nightly
 notifications:
   email: false
 branches:
   only: master
-# matrix:
-#   allow_failures:
-#     - julia: nightly
+matrix:
+  allow_failures:
+    - julia: nightly
 
 after_success:
-  - julia -e 'cd(Pkg.dir("RegionTrees")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
+  - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
