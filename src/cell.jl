@@ -61,13 +61,13 @@ function split!(cell::Cell{Data, N}) where {Data, N}
 end
 
 @generated function split!(cell::Cell{Data, N}, child_data::AbstractArray) where {Data, N}
-    split!_impl(cell, child_data, Val{N})
+    split!_impl(cell, child_data, Val(N))
 end
 
 split!(cell::Cell, child_data_function::Function) =
     split!(cell, map_children(child_data_function, cell))
 
-function split!_impl(::Type{C}, child_data, ::Type{Val{N}}) where {C <: Cell, N}
+function split!_impl(::Type{C}, child_data, ::Val{N}) where {C <: Cell, N}
     child_exprs = [:(Cell(child_boundary(cell, $(I.I)),
                           child_data[$i])) for (i, I) in enumerate(CartesianIndices(ntuple(_ -> 2, Val(N))))]
     quote
