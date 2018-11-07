@@ -1,5 +1,5 @@
 @testset "adaptively sampled distance fields" begin
-    include("../examples/adaptive_distance_fields.jl")
+    include("../examples/adaptive_distance_fields/adaptive_distance_fields.jl")
     import .AdaptivelySampledDistanceFields: ASDF, evaluate
     import StaticArrays: SVector
 
