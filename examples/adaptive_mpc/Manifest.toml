@@ -105,9 +105,9 @@ version = "0.35.0"
 
 [[Gurobi]]
 deps = ["Compat", "Libdl", "LinQuadOptInterface", "MathProgBase"]
-git-tree-sha1 = "417fe26b36445e5bf6c027c6a14fbf4ea2b7c705"
+git-tree-sha1 = "2e6c179def1b5f121ab21852b2c36e81c9f005db"
 uuid = "2e9cd046-0924-5485-92f1-d5272153d98b"
-version = "0.5.4"
+version = "0.5.5"
 
 [[InteractiveUtils]]
 deps = ["LinearAlgebra", "Markdown"]
@@ -145,9 +145,9 @@ uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 
 [[LinQuadOptInterface]]
 deps = ["Compat", "MathOptInterface"]
-git-tree-sha1 = "c246e73894d2063ab0697be54ecbb122e604df19"
+git-tree-sha1 = "7baadee415b6fc86519152fdfafb1d3526488171"
 uuid = "f8899e07-120b-5979-ab1d-7b97bb9e1a48"
-version = "0.4.1"
+version = "0.4.2"
 
 [[LinearAlgebra]]
 deps = ["Libdl"]
@@ -186,6 +186,12 @@ version = "0.3.1"
 
 [[Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+
+[[NBInclude]]
+deps = ["Compat", "JSON", "SoftGlobalScope"]
+git-tree-sha1 = "9881dd75c83eba704798dfd7185770c29ac720f8"
+uuid = "0db19996-df87-5ea3-a455-e3a50d440464"
+version = "2.1.0"
 
 [[NaNMath]]
 deps = ["Compat"]
@@ -293,6 +299,12 @@ version = "0.2.1"
 
 [[Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
+
+[[SoftGlobalScope]]
+deps = ["Test"]
+git-tree-sha1 = "97f6dfcf612b9a7260fde44170725d9ea34b1431"
+uuid = "b85f4697-e234-5449-a836-ec8e2f98b302"
+version = "1.0.7"
 
 [[SortingAlgorithms]]
 deps = ["DataStructures", "Random", "Test"]
