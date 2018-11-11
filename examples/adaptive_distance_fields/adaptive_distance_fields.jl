@@ -6,11 +6,11 @@ import RegionTrees: needs_refinement, refine_data
 using Interpolations
 
 @generated function evaluate(itp::AbstractInterpolation, point::SVector{N}) where N
-    Expr(:ref, :itp, [:(point[$i]) for i in 1:N]...)
+    Expr(:call, :itp, [:(point[$i]) for i in 1:N]...)
 end
 
 function evaluate(itp::AbstractInterpolation, point::AbstractArray)
-    itp[point...]
+    itp(point...)
 end
 
 function evaluate(cell::Cell{D}, point::AbstractArray) where D <: AbstractInterpolation
@@ -50,8 +50,7 @@ end
 
 function refine_data(refinery::SignedDistanceRefinery, boundary::HyperRectangle)
     interpolate!(refinery.signed_distance_func.(vertices(boundary)),
-                 BSpline(Linear()),
-                 OnGrid())
+                 BSpline(Linear()))
 end
 
 function ASDF(signed_distance::Function, origin::AbstractArray,
