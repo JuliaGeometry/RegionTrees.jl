@@ -14,7 +14,7 @@ This Julia package is a lightweight framework for defining N-Dimensional region 
 
 ## Usage
 
-See [examples/demo.ipynb](https://github.com/rdeits/RegionTrees.jl/blob/master/examples/demo.ipynb) for a tour through the API. You can also check out:
+See [examples/demo/demo.ipynb](https://github.com/rdeits/RegionTrees.jl/blob/master/examples/demo/demo.ipynb) for a tour through the API. You can also check out:
 
 * [examples/adaptive_distances.ipynb](https://github.com/rdeits/RegionTrees.jl/blob/master/examples/adaptive_distances.ipynb) for an adaptively-sampled distance field, or [AdaptiveDistanceFields.jl](https://github.com/rdeits/AdaptiveDistanceFields.jl) for a more complete example [1]
 * [examples/adaptive_mpc.ipynb](https://github.com/rdeits/RegionTrees.jl/blob/master/examples/adaptive_mpc.ipynb) for an adaptive approximation of a model-predictive controller
