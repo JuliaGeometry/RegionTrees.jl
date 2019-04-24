@@ -22,7 +22,7 @@ export Cell,
        initial_data,
        allcells,
        allleaves,
-	   allparents,
+       allparents,
        adaptivesampling!
 
 include("twosarray.jl")

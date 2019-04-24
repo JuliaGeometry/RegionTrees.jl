@@ -125,7 +125,6 @@ function allparents(cell::Cell)
                 put!(c, p)
                 push!(queue, p)
             end
-
         end
     end
 end
