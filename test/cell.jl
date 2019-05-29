@@ -52,4 +52,7 @@ end
 
 	@test parents3D[1] === cell3D[2,2,2]
 	@test parents3D[2] === cell3D
+	
+	noparents = [p for p in allparents(cell2D)]
+	@test length(noparents) == 0
 end
