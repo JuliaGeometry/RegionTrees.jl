@@ -35,3 +35,24 @@ end
     @test findleaf(cell, SVector(-0.01, -0.01, -0.01)) === cell[1,1,1]
     @test findleaf(cell, SVector(0.01, -0.01, -0.01)) === cell[2,1,1]
 end
+
+@testset "find parents" begin
+	cell2D = Cell(SVector(0., 0), SVector(1., 1))
+	split!(cell2D)
+	split!(cell2D[1,1])
+	parents2D = [p for p in allparents(cell2D[1,1][1,2])]
+
+	@test parents2D[1] === cell2D[1,1]
+	@test parents2D[2] === cell2D
+	
+	cell3D = Cell(SVector(-1., -2, -3), SVector(2., 4, 6), 0)
+	split!(cell3D)
+	split!(cell3D[2,2,2])
+	parents3D = [p for p in allparents(cell3D[2,2,2][1,1,1])]
+
+	@test parents3D[1] === cell3D[2,2,2]
+	@test parents3D[2] === cell3D
+	
+	noparents = [p for p in allparents(cell2D)]
+	@test length(noparents) == 0
+end

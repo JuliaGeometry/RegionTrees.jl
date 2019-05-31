@@ -114,3 +114,17 @@ function allleaves(cell::Cell)
         end
     end
 end
+
+function allparents(cell::Cell)
+    Channel() do c
+        queue = [cell]
+        while !isempty(queue)
+            current = pop!(queue)
+            p = parent(current)
+            if ! (p === nothing)
+                put!(c, p)
+                push!(queue, p)
+            end
+        end
+    end
+end
