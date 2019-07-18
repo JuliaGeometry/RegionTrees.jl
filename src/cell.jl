@@ -39,7 +39,7 @@ show(io::IO, cell::Cell) = print(io, "Cell: $(cell.boundary)")
 @inline getindex(cell::Cell, I...) = getindex(cell.children, I...)
 
 function child_boundary(cell::Cell, indices)
-    HyperRectangle(cell.boundary.origin + 0.5 * (SVector(indices) - 1) .* cell.boundary.widths,
+    HyperRectangle(cell.boundary.origin + 1//2 * (SVector(indices) - 1) .* cell.boundary.widths,
                    cell.boundary.widths / 2)
 end
 
