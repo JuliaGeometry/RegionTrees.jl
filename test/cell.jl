@@ -44,7 +44,7 @@ end
 
 	@test parents2D[1] === cell2D[1,1]
 	@test parents2D[2] === cell2D
-	
+
 	cell3D = Cell(SVector(-1., -2, -3), SVector(2., 4, 6), 0)
 	split!(cell3D)
 	split!(cell3D[2,2,2])
@@ -52,7 +52,14 @@ end
 
 	@test parents3D[1] === cell3D[2,2,2]
 	@test parents3D[2] === cell3D
-	
+
 	noparents = [p for p in allparents(cell2D)]
 	@test length(noparents) == 0
+end
+
+@testset "non-float64 types" begin
+    # https://github.com/rdeits/RegionTrees.jl/pull/22
+    root = Cell(SVector(0f0, 0f0, 0f0), SVector(1f0, 1f0, 1f0))
+    split!(root)
+    @test length(root.children) == 8
 end
