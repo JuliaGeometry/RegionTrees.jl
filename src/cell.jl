@@ -41,7 +41,7 @@ show(io::IO, cell::Cell) = print(io, "Cell: $(cell.boundary)")
 function child_boundary(cell::Cell, indices)
     half_widths = cell.boundary.widths ./ 2
     HyperRectangle(
-        cell.boundary.origin + (SVector(indices) - 1) .* half_widths,
+        cell.boundary.origin .+ (SVector(indices) .- 1) .* half_widths,
         half_widths)
 end
 
