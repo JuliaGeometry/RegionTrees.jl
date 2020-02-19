@@ -2,7 +2,7 @@ name = "RegionTrees"
 uuid = "dee08c22-ab7f-5625-9660-a9af2021b33f"
 authors = ["Robin Deits <robin.deits@gmail.com>"]
 repo = "https://github.com/rdeits/RegionTrees.jl"
-version = "0.3.0"
+version = "0.3.1"
 
 [deps]
 IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
