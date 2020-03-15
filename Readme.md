@@ -16,8 +16,8 @@ This Julia package is a lightweight framework for defining N-Dimensional region 
 
 See [examples/demo/demo.ipynb](examples/demo/demo.ipynb) for a tour through the API. You can also check out:
 
-* [examples/adaptive_distances.ipynb](examples/adaptive_distance_fields/adaptive_distances.ipynb) for an adaptively-sampled distance field, or [AdaptiveDistanceFields.jl](https://github.com/rdeits/AdaptiveDistanceFields.jl) for a more complete example [1]
-* [examples/adaptive_mpc.ipynb](examples/adaptive_mpc/adaptive_mpc.ipynb) for an adaptive approximation of a model-predictive controller
+* [examples/adaptive_distance_fields/adaptive_distances.ipynb](examples/adaptive_distance_fields/adaptive_distances.ipynb) for an adaptively-sampled distance field, or [AdaptiveDistanceFields.jl](https://github.com/rdeits/AdaptiveDistanceFields.jl) for a more complete example [1]
+* [examples/adaptive_mpc/adaptive_mpc.ipynb](examples/adaptive_mpc/adaptive_mpc.ipynb) for an adaptive approximation of a model-predictive controller
 
 [1] Frisken et al. "Adaptively Sampled Distance Fields: A General Representation of Shape for Computer Graphics". SIGGRAPH 2000.
 
