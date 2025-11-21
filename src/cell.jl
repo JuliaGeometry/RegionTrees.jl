@@ -94,8 +94,8 @@ end
     end
 end
 
-function allcells(cell::Cell)
-    Channel() do c
+function allcells(cell::Cell{Data, N, T, L}) where {Data, N, T, L}
+    Channel{Cell{Data, N, T, L}}() do c
         queue = [cell]
         while !isempty(queue)
             current = pop!(queue)
@@ -107,8 +107,8 @@ function allcells(cell::Cell)
     end
 end
 
-function allleaves(cell::Cell)
-    Channel() do c
+function allleaves(cell::Cell{Data, N, T, L}) where {Data, N, T, L}
+    Channel{Cell{Data, N, T, L}}() do c
         for child in allcells(cell)
             if isleaf(child)
                 put!(c, child)
@@ -117,8 +117,8 @@ function allleaves(cell::Cell)
     end
 end
 
-function allparents(cell::Cell)
-    Channel() do c
+function allparents(cell::Cell{Data, N, T, L}) where {Data, N, T, L}
+    Channel{Cell{Data, N, T, L}}() do c
         queue = [cell]
         while !isempty(queue)
             current = pop!(queue)
