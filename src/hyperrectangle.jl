@@ -14,7 +14,7 @@ end
     Expr(:call, :TwosArray, verts...)
 end
 
-center(rect::HyperRectangle) = rect.origin + 0.5 * rect.widths
+center(rect::HyperRectangle) = rect.origin + rect.widths / 2
 
 convert(::Type{HyperRectangle{N, T2}}, r::HyperRectangle{N, T1}) where {N, T1, T2} =
     HyperRectangle{N, T2}(convert(SVector{N, T2}, r.origin),
