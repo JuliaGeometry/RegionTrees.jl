@@ -62,6 +62,8 @@ end
     root = Cell(SVector(0f0, 0f0, 0f0), SVector(1f0, 1f0, 1f0))
     split!(root)
     @test length(root.children) == 8
+    @test center(root) == SVector(0.5f0, 0.5f0, 0.5f0)
+    @test typeof(center(root)) == SVector{3, Float32}
 end
 
 @testset "allcells, alleaves, allparents functions" begin
