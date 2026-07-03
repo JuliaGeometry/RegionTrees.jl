@@ -9,8 +9,12 @@ function adaptivesampling!(root::Cell, refinery::AbstractRefinery)
         (cell, indices) -> refine_data(refinery, cell, indices)
     while !isempty(refinement_queue)
         cell = pop!(refinement_queue)
-        if needs_refinement(refinery, cell)
-            split!(cell, refine_function)
+        if isleaf(cell)
+            if needs_refinement(refinery, cell)
+                split!(cell, refine_function)
+                append!(refinement_queue, children(cell))
+            end
+        else
             append!(refinement_queue, children(cell))
         end
     end

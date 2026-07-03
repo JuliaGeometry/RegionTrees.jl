@@ -6,4 +6,5 @@ using LinearAlgebra
 include("hyperrectangle.jl")
 include("cell.jl")
 include("twosarray.jl")
+include("adaptivesampling.jl")
 include("asdfs.jl")
