@@ -17,12 +17,16 @@ Types of changes:
 
 ### Changed
 
-- type unstable channels are now typed (#43)
+- type unstable channels are now typed ([#43])
 
 ### Fixed
 
-- CI (#49)
-- type instability of non-Float64 types (#48)
-- `adaptivesampling!` subsequent calls failing (#45)
+- CI ([#49])
+- type instability of non-Float64 types ([#48])
+- `adaptivesampling!` subsequent calls failing ([#45])
 
 [unreleased]: https://github.com/JuliaGeometry/RegionTrees.jl/compare/v0.3.2..HEAD
+[#43]: https://github.com/JuliaGeometry/RegionTrees.jl/issues/43
+[#45]: https://github.com/JuliaGeometry/RegionTrees.jl/pull/45
+[#48]: https://github.com/JuliaGeometry/RegionTrees.jl/pull/48
+[#49]: https://github.com/JuliaGeometry/RegionTrees.jl/pull/49
