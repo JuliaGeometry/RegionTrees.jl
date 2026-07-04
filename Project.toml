@@ -1,7 +1,7 @@
 name = "RegionTrees"
 uuid = "dee08c22-ab7f-5625-9660-a9af2021b33f"
-authors = ["Robin Deits <robin.deits@gmail.com>"]
-repo = "https://github.com/rdeits/RegionTrees.jl"
+authors = ["Robin Deits <robin.deits@gmail.com> and contributors"]
+repo = "https://github.com/JuliaGeometry/RegionTrees.jl"
 version = "0.3.2"
 
 [deps]
