@@ -15,6 +15,8 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-07-04
+
 ### Changed
 
 - type unstable channels are now typed ([#43])
@@ -25,7 +27,8 @@ Types of changes:
 - type instability of non-Float64 types ([#48])
 - `adaptivesampling!` subsequent calls failing ([#45])
 
-[unreleased]: https://github.com/JuliaGeometry/RegionTrees.jl/compare/v0.3.2..HEAD
+[unreleased]: https://github.com/JuliaGeometry/RegionTrees.jl/compare/v0.3.3..HEAD
+[0.3.3]: https://github.com/JuliaGeometry/RegionTrees.jl/releases/tag/v0.3.3
 [#43]: https://github.com/JuliaGeometry/RegionTrees.jl/issues/43
 [#45]: https://github.com/JuliaGeometry/RegionTrees.jl/pull/45
 [#48]: https://github.com/JuliaGeometry/RegionTrees.jl/pull/48
