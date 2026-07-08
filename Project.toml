@@ -5,13 +5,11 @@ repo = "https://github.com/JuliaGeometry/RegionTrees.jl"
 version = "0.3.3"
 
 [deps]
-IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
-Interpolations = "0.9, 0.10, 0.11, 0.12, 0.13"
-IterTools = "1"
+Interpolations = "0.9, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16"
 StaticArrays = "0.12, 1"
 julia = "1"
 
