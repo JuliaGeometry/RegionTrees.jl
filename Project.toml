@@ -2,7 +2,7 @@ name = "RegionTrees"
 uuid = "dee08c22-ab7f-5625-9660-a9af2021b33f"
 authors = ["Robin Deits <robin.deits@gmail.com> and contributors"]
 repo = "https://github.com/JuliaGeometry/RegionTrees.jl"
-version = "0.3.3"
+version = "0.3.4"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"

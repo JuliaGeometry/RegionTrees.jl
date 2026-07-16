@@ -15,6 +15,8 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-07-16
+
 ### Removed
 
 - unused `IterTools.jl` dependency ([#52])
@@ -31,7 +33,8 @@ Types of changes:
 - type instability of non-Float64 types ([#48])
 - `adaptivesampling!` subsequent calls failing ([#45])
 
-[unreleased]: https://github.com/JuliaGeometry/RegionTrees.jl/compare/v0.3.3..HEAD
+[unreleased]: https://github.com/JuliaGeometry/RegionTrees.jl/compare/v0.3.4..HEAD
+[0.3.4]: https://github.com/JuliaGeometry/RegionTrees.jl/releases/tag/v0.3.4
 [0.3.3]: https://github.com/JuliaGeometry/RegionTrees.jl/releases/tag/v0.3.3
 [#52]: https://github.com/JuliaGeometry/RegionTrees.jl/pull/52
 [#43]: https://github.com/JuliaGeometry/RegionTrees.jl/issues/43
